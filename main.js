@@ -41,7 +41,7 @@ const sphere = new THREE.Mesh(
         value: new THREE.TextureLoader().load(isDayTime?'/globe.jpg':'/globenight.jpg')
       },
       shadecolor:{
-        value: isDayTime?new THREE.Vector3(0.3,0.6,1.0): new THREE.Vector3(0.1,0.3,0.7)
+        value: isDayTime?new THREE.Vector3(0.3,0.6,1.0): new THREE.Vector3(0.01,0.03,0.07)
       }
     }
   })
