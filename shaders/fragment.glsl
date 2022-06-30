@@ -38,8 +38,8 @@ mat4 saturationMatrix( float saturation )
                  0, 0, 0, 1 );
 }
 
-const float brightness = 0.3;
-const float contrast = 2.2;
+const float brightness = 0.;
+const float contrast = 1.5;
 const float saturation = 1.5;
 
 
