@@ -6,6 +6,8 @@ import atmovertexShader from './shaders/atmovertex.glsl'
 import atmofragmentShader from './shaders/atmofragment.glsl'
 import gsap from 'gsap'
 
+
+
 const hours = new Date().getHours()
 const isDayTime = hours > 6 && hours < 20
  
@@ -13,7 +15,7 @@ const isDayTime = hours > 6 && hours < 20
 
 const scene = new THREE.Scene()
 
-const camera = new THREE.PerspectiveCamera(75 , window.innerWidth/window.innerHeight , 0.001 , 1000)
+const camera = new THREE.PerspectiveCamera(75 , window.innerWidth/window.innerHeight , 0.001 , 1000000)
 
 const renderer = new THREE.WebGLRenderer({
   canvas:document.querySelector('#bg'),
@@ -70,6 +72,23 @@ const group = new THREE.Group()
 group.add(sphere)
 scene.add(group)
 
+
+const starVertices = []
+for (let i = 0;i < 1000000;i++){
+  const x = (Math.random() - 0.5) * 9000
+  const y = (Math.random() - 0.5) * 9000
+  const z = -Math.random() * 5000
+  starVertices.push(x,y,z)
+}
+const starGeometry = new THREE.SphereBufferGeometry(1)
+
+const starMaterial = new THREE.PointsMaterial({color:0xffffff})
+
+starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices,3))
+
+const stars = new THREE.Points(starGeometry,starMaterial)
+scene.add(stars)
+
 var isPlay = true
 const controls = new OrbitControls(camera,renderer.domElement)
 controls.enablePan = false
@@ -95,6 +114,12 @@ function animate(){
   gsap.to(group.rotation,{
     x:mouse.y * 0.1,
     y:mouse.x * 0.5,
+    duration : 2 
+  })
+
+  gsap.to(stars.position,{
+    x:mouse.x * 1000,
+    y:mouse.y * 1000,
     duration : 2 
   })
   renderer.render(scene,camera)
