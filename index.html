@@ -1,15 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./style.css">
-    <title>Learn Shader</title>
-  </head>
-  <body>
-    <canvas id="bg"></canvas>
-    <p class="absolute bottom-10 right-10 text-white text-2xl font-bold" id="info">Press P to pause/play</p>
-    <script type="module" src="/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./style.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+  <title>Learn Shader</title>
+</head>
+
+<body>
+  <canvas id="bg"></canvas>
+  <p class="absolute top-10 font-mono right-10 text-white text-2xl font-bold" id="info">Press P to pause/play</p>
+  <div class="absolute font-mono bottom-10 left-10 text-white space-y-2">
+    <p class="text-5xl font-bold" id="place">Place</p>
+    <p class="text-3xl font-bold" id="condition">Condition</p>
+    <p class="text-2xl font-bold" id="temp">26 °C</p>
+    <p class="text-xl font-bold" id="humidity">Humidity : </p>
+    <p class="text-xl font-bold" id="clouds">75% Clouds</p>
+    <p class="text-xl font-bold" id="windspeed">Wind in Kph</p>
+    <p class="text-xl font-bold" id="time">Time</p>
+  </div>
+  <script type="module" src="/main.js"></script>
+</body>
+<script>
+
+function ajaxCall(){
+
+  $.ajax({
+
+    // Our sample url to make request 
+    url:
+      'http://api.weatherapi.com/v1/current.json?key=512213aa9c3742d88f832740223006&q=auto:ip',
+
+    // Type of Request
+    type: "GET",
+
+    // Function to call when to
+    // request is ok 
+    success: function (data) {
+      document.getElementById("place").innerText = data.location.name
+      document.getElementById("condition").innerText = data.current.condition.text
+      document.getElementById("temp").innerText = data.current.temp_c + "°C"
+      document.getElementById("humidity").innerText = data.current.humidity + " % humidity"
+      document.getElementById("clouds").innerText = data.current.cloud + " % clouds"
+      document.getElementById("windspeed").innerText = data.current.wind_kph + " Kph windspeed"
+      document.getElementById("time").innerText = data.location.localtime
+    },
+
+    // Error handling 
+    error: function (error) {
+      console.log(`Error ${error}`);
+    }
+  });
+}
+
+ajaxCall();
+
+
+</script>
+
 </html>
